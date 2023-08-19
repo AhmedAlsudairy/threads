@@ -336,8 +336,13 @@ try {
   if (!thread) {
     throw new Error("Thread not found");
   }
+  const user = await User.findById(userId);
 
-    return thread.likes.includes(userId);
+  if(!user){
+    throw new Error("User not found");
+  }
+
+    return user.likedThreads.includes(userId);
 
   
 } catch (error:any) {
@@ -361,6 +366,7 @@ export async function  likeCount( threadId: string, userId: string ) {
     if (!thread) {
       throw new Error("Thread not found");
     }
+    
   
       return thread.likes.length
     
