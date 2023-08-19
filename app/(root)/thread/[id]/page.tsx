@@ -47,6 +47,7 @@ async function page({ params }: { params: { id: string } }) {
       <div className='mt-10'>
         {thread.children.map((childItem: any) => (
           <ThreadCard
+          userInfo={userInfo._id}
             key={childItem._id}
             id={childItem._id}
             currentUserId={user.id}
