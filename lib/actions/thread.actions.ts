@@ -255,9 +255,7 @@ export async function addLikeToThread(threadId: string, userId: string) {
 
     // Check if the user has already liked this thread
      // Check if the user has already liked this thread
-     if (thread.likes.includes(userId)) {
-      throw new Error("User has already liked this thread");
-    }
+    
 
     // Add the user to the likes array of the thread
     thread.likes.push(userId);
@@ -350,3 +348,27 @@ try {
 
 
 }
+
+
+export async function  likeCount( threadId: string, userId: string ) {
+  try {
+  
+    connectToDB(); // Connect to your DB
+  
+    // Fetch the thread
+    const thread = await Thread.findById(threadId);
+  
+    if (!thread) {
+      throw new Error("Thread not found");
+    }
+  
+      return thread.likes.length
+    
+  } catch (error:any) {
+    throw new Error(`Failed to set like state: ${error.message}`);
+  
+  }
+  
+  
+  
+  }
