@@ -5,7 +5,6 @@ import { Button } from "../ui/button";
 import { HeartIcon } from "lucide-react";
 import { addLikeToThread, hasUserLikedThread, likeCount, unLikeToThread } from "@/lib/actions/thread.actions";
 import path from "path";
-import axios from "axios";
 interface LikesProps{
 threadId:string
 userId:string
