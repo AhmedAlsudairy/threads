@@ -238,3 +238,115 @@ export async function addCommentToThread(
     throw new Error("Unable to add comment");
   }
 }
+
+
+//liking threads
+
+export async function addLikeToThread(threadId: string, userId: string) {
+  try {
+    connectToDB(); // Connect to your DB
+
+    // Fetch the thread
+    const thread = await Thread.findById(threadId);
+
+    if (!thread) {
+      throw new Error("Thread not found");
+    }
+
+    // Check if the user has already liked this thread
+     // Check if the user has already liked this thread
+     if (thread.likes.includes(userId)) {
+      throw new Error("User has already liked this thread");
+    }
+
+    // Add the user to the likes array of the thread
+    thread.likes.push(userId);
+
+    // Save the updated thread
+    await thread.save();
+
+    // Find the user
+    const user = await User.findById(userId);
+
+    if(!user){
+      throw new Error("User not found");
+    }
+
+    // Add the thread to the user's likedThreads array
+    user.likedThreads.push(threadId);
+
+    // Save the updated user
+    await user.save();
+
+  } catch (error: any) {
+    throw new Error(`Failed to add like to thread: ${error.message}`);
+  }
+}
+
+
+export async function unLikeToThread(threadId: string, userId: string){
+  try {
+    connectToDB(); // Connect to your DB
+
+    // Fetch the thread
+    const thread = await Thread.findById(threadId);
+
+    if (!thread) {
+      throw new Error("Thread not found");
+    }
+
+   
+
+    // Add the user to the likes array of the thread
+    thread.likes.pull(userId);
+
+    // Save the updated thread
+    await thread.save();
+
+    // Find the user
+    const user = await User.findById(userId);
+
+    if(!user){
+      throw new Error("User not found");
+    }
+
+    // Add the thread to the user's likedThreads array
+    user.likedThreads.pull(threadId);
+
+    // Save the updated user
+    await user.save();
+
+
+
+  } catch (error: any) {
+    throw new Error(`Failed to remove like from thread: ${error.message}`);
+  }
+}
+
+
+
+// for likes state
+
+export async function hasUserLikedThread( threadId: string, userId: string ) {
+try {
+
+  connectToDB(); // Connect to your DB
+
+  // Fetch the thread
+  const thread = await Thread.findById(threadId);
+
+  if (!thread) {
+    throw new Error("Thread not found");
+  }
+
+    return thread.likes.includes(userId);
+
+  
+} catch (error:any) {
+  throw new Error(`Failed to set like state: ${error.message}`);
+
+}
+
+
+
+}
