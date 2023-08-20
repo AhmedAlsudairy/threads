@@ -1,15 +1,24 @@
 "use client"
 
+
+
 import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { HeartIcon } from "lucide-react";
 import { addLikeToThread, hasUserLikedThread, likeCount, unLikeToThread } from "@/lib/actions/thread.actions";
 import path from "path";
+import { number } from "zod";
+import { ObjectId } from "mongoose";
 interface LikesProps{
 threadId:string
 userId:string
 
 
+}
+type LikesType = {
+  id? : ObjectId,
+  userId? : string,
+  threadtId : string,
 }
 
 
@@ -17,6 +26,7 @@ userId:string
 
 
 const Likes:React.FC<LikesProps> = ({threadId,userId}) => {
+
 
     const [like, setLike] = useState(false);
     const [likecount,setLikeCount]= useState(0)
@@ -34,13 +44,15 @@ const Likes:React.FC<LikesProps> = ({threadId,userId}) => {
   } 
 
 async function LikeNum() {
-  const likeNum= await likeCount(threadId,userId)
-  setLike(likeNum)
+  const result = await likeCount(threadId, userId);
+      setLikeCount(result.likeCount);
+
 }
 
   useEffect(() => {
+     LikeNum();
     setlikestatefunction()
-    LikeNum();
+   
 }, [threadId, userId])
 
 
@@ -61,7 +73,7 @@ async function LikeNum() {
     <Button  onClick={likeFunction} variant="link" className=" flex py-0 px-0 m-0 h-15 w-15 gap-1.5"    >
 
 
-  {like ?<HeartIcon height={24} width={24} color="blue" fill="blue"/>:<HeartIcon height={24} width={24} color="gray"/>} {like}
+  {like ?<HeartIcon height={24} width={24} color="blue" fill="blue"/>:<HeartIcon height={24} width={24} color="gray"/>} <span>{likecount}</span>
 
 
     </Button> )

@@ -342,7 +342,7 @@ try {
     throw new Error("User not found");
   }
 
-    return user.likedThreads.includes(userId);
+    return thread.likes.includes(userId);
 
   
 } catch (error:any) {
@@ -366,9 +366,13 @@ export async function  likeCount( threadId: string, userId: string ) {
     if (!thread) {
       throw new Error("Thread not found");
     }
+
     
   
-      return thread.likes.length
+    const likeCount = thread.likes.length;
+
+    return {likeCount}
+    
     
   } catch (error:any) {
     throw new Error(`Failed to set like state: ${error.message}`);
