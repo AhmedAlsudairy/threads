@@ -21,6 +21,12 @@ const threadSchema = new mongoose.Schema({
   parentId: {
     type: String,
   },
+  imageUrl: {
+    type: String,
+  },
+  videoUrl: {
+    type: String,
+  },
   children: [
     {
       type: mongoose.Schema.Types.ObjectId,

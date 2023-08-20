@@ -53,9 +53,10 @@ interface Params {
   author: string,
   communityId: string | null,
   path: string,
+  imageUrl?:string
 }
 
-export async function createThread({ text, author, communityId, path }: Params
+export async function createThread({ text,imageUrl, author, communityId, path  }: Params
 ) {
   try {
     connectToDB();
@@ -67,7 +68,9 @@ export async function createThread({ text, author, communityId, path }: Params
 
     const createdThread = await Thread.create({
       text,
+      imageUrl,
       author,
+      
       community: communityIdObject, // Assign communityId if provided, or leave it null for personal account
     });
 
@@ -247,8 +250,11 @@ export async function addLikeToThread(threadId: string, userId: string) {
     connectToDB(); // Connect to your DB
 
     // Fetch the thread
-    const thread = await Thread.findById(threadId);
-
+// Fetch the thread and user
+const [thread, user] = await Promise.all([
+  Thread.findById(threadId),
+  User.findById(userId),
+]);
     if (!thread) {
       throw new Error("Thread not found");
     }
@@ -264,7 +270,6 @@ export async function addLikeToThread(threadId: string, userId: string) {
     await thread.save();
 
     // Find the user
-    const user = await User.findById(userId);
 
     if(!user){
       throw new Error("User not found");
@@ -287,8 +292,11 @@ export async function unLikeToThread(threadId: string, userId: string){
     connectToDB(); // Connect to your DB
 
     // Fetch the thread
-    const thread = await Thread.findById(threadId);
-
+// Fetch the thread and user
+const [thread, user] = await Promise.all([
+  Thread.findById(threadId),
+  User.findById(userId),
+]);
     if (!thread) {
       throw new Error("Thread not found");
     }
@@ -302,7 +310,6 @@ export async function unLikeToThread(threadId: string, userId: string){
     await thread.save();
 
     // Find the user
-    const user = await User.findById(userId);
 
     if(!user){
       throw new Error("User not found");
@@ -331,12 +338,14 @@ try {
   connectToDB(); // Connect to your DB
 
   // Fetch the thread
-  const thread = await Thread.findById(threadId);
-
+// Fetch the thread and user
+const [thread, user] = await Promise.all([
+  Thread.findById(threadId),
+  User.findById(userId),
+]);
   if (!thread) {
     throw new Error("Thread not found");
   }
-  const user = await User.findById(userId);
 
   if(!user){
     throw new Error("User not found");
@@ -361,8 +370,13 @@ export async function  likeCount( threadId: string, userId: string ) {
     connectToDB(); // Connect to your DB
   
     // Fetch the thread
-    const thread = await Thread.findById(threadId);
-  
+// Fetch the thread and user
+const [thread, user] = await Promise.all([
+  Thread.findById(threadId),
+  User.findById(userId),
+]);
+
+
     if (!thread) {
       throw new Error("Thread not found");
     }

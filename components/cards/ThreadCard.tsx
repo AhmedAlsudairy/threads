@@ -6,13 +6,15 @@ import DeleteThread from "../forms/DeleteThread";
 import Likes from "./likes";
 import { currentUser } from "@clerk/nextjs";
 import { fetchUser } from "@/lib/actions/user.actions";
+import { CldOgImage } from "next-cloudinary";
 
 interface Props {
   id: string;
   currentUserId: string;
   parentId: string | null;
   content: string;
-  userInfo:string
+  imageUrl?:string;
+  userInfo:string;
   author: {
     name: string;
     image: string;
@@ -37,6 +39,7 @@ async function ThreadCard({
   currentUserId,
   parentId,
   content,
+  imageUrl,
   author,
   community,
   createdAt,
@@ -75,6 +78,16 @@ async function ThreadCard({
             </Link>
 
             <p className='mt-2 text-small-regular text-dark-2'>{content}</p>
+            {imageUrl&&<div className="w-64 h-64">
+            { <Image
+               src={imageUrl}
+               alt="post image"
+               width={64}
+               height={64}
+               className="w-full h-full object-cover aspect-square"
+              />}
+              
+              </div>}
 
             <div className={`${isComment && "mb-10"} mt-5 flex flex-col gap-3`}>
               <div className='flex gap-3.5'>

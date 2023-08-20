@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+
+  
   experimental: {
     serverActions: true,
     serverComponentsExternalPackages: ["mongoose"],
@@ -27,8 +29,18 @@ const nextConfig = {
         protocol: "https",
         hostname: "placehold.co",
       },
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+        port: '',
+        pathname: '/dfqypi2mh/image/upload/**',
+      },
+  
     ],
   },
+
+  
+  
 };
 
 module.exports = nextConfig;
