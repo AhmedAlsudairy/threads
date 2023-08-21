@@ -29,7 +29,7 @@ function ImageOverlay({ src, alt }:overlayProps) {
               >
                 <X size={15} color="black"/>
               </button>
-              <Image width={500} height={500} src={src} alt={alt}  layout="responsive" />
+              <Image width={500} height={500} src={src} alt={alt}  />
             </div>
           </div>
         )}
