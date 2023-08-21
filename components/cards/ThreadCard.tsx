@@ -7,6 +7,7 @@ import Likes from "./likes";
 import { currentUser } from "@clerk/nextjs";
 import { fetchUser } from "@/lib/actions/user.actions";
 import { CldOgImage } from "next-cloudinary";
+import ImageOverlay from "./overlay";
 
 interface Props {
   id: string;
@@ -70,7 +71,7 @@ async function ThreadCard({
             <div className='thread-card_bar' />
           </div>
 
-          <div className='flex w-full flex-col'>
+          <div className='flex w-full flex-col gap-3'>
             <Link href={`/profile/${author.id}`} className='w-fit'>
               <h4 className='cursor-pointer text-base-semibold text-dark-1'>
                 {author.name}
@@ -78,16 +79,14 @@ async function ThreadCard({
             </Link>
 
             <p className='mt-2 text-small-regular text-dark-2'>{content}</p>
-            {imageUrl&&<div className="w-64 h-64">
-            { <Image
+            {imageUrl&&
+             <ImageOverlay
                src={imageUrl}
                alt="post image"
-               width={64}
-               height={64}
-               className="w-full h-full object-cover aspect-square"
+             
               />}
               
-              </div>}
+              
 
             <div className={`${isComment && "mb-10"} mt-5 flex flex-col gap-3`}>
               <div className='flex gap-3.5'>
