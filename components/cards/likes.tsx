@@ -7,43 +7,47 @@ import {
   addLikeToThread,
   hasUserLikedThread,
   likeCount,
-  unLikeToThread,
+  
 } from '@/lib/actions/thread.actions';
 import path from 'path';
 import { number } from 'zod';
 import { ObjectId } from 'mongoose';
+import { useRouter } from 'next/navigation';
+
+export
+
 interface LikesProps {
-  threadId: string;
-  userId: string;
+  threadId:  string;
+  userId:  string;
 }
 
 const Likes: React.FC<LikesProps> = ({ threadId, userId }) => {
+  const Router = useRouter()
   const [like, setLike] = useState(false);
   const [likecount, setLikeCount] = useState(0);
   async function setlikestatefunction() {
     const likeState = await hasUserLikedThread(threadId, userId);
 
-    setLike(likeState);
-
+  setLike(likeState)
   }
 
   async function LikeNum() {
     const result = await likeCount(threadId, userId);
     setLikeCount(result.likeCount);
+    console.log(result)
   }
 
   useEffect(() => {
     LikeNum();
     setlikestatefunction();
-  }, [threadId, userId]);
+  }, [threadId,userId]);
 
   const likeFunction = async () => {
-    like
-      ? await unLikeToThread(threadId, userId)
-      : addLikeToThread(threadId, userId);
+   await addLikeToThread(threadId,userId)
     setLike(!like);
-  };
+    Router.refresh()
 
+  };
   return (
     <Button
       onClick={likeFunction}
@@ -54,7 +58,9 @@ const Likes: React.FC<LikesProps> = ({ threadId, userId }) => {
         <HeartIcon height={24} width={24} color="blue" fill="blue" />
       ) : (
         <HeartIcon height={24} width={24} color="gray" />
-      )}
+      )
+     
+      }
       <span>{likecount}</span>
     </Button>
   );
