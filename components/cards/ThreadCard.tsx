@@ -79,7 +79,7 @@ async function ThreadCard({
             </Link>
 
             <p className='mt-2 text-small-regular text-dark-2'>{content}</p>
-            {imageUrl&&
+            {imageUrl&&!isComment&&
              <ImageOverlay
                src={imageUrl}
                alt="post image"

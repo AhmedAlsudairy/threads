@@ -49,7 +49,7 @@ export async function fetchPosts(pageNumber = 1, pageSize = 20) {
 }
 
 interface Params {
-  text: string,
+  text?: string,
   author: string,
   communityId: string | null,
   path: string,

@@ -1,8 +1,8 @@
 import * as z from "zod";
 
 export const ThreadValidation = z.object({
-  thread: z.string().nonempty().min(3, { message: "Minimum 3 characters." }),
-  imageUrl: z.string().min(1).optional(),
+  thread: z.string().optional(),
+  imageUrl: z.string().optional(),
   accountId: z.string(),
   
 });

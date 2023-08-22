@@ -98,7 +98,7 @@ function PostThread({ userId }: Props) {
           )}
         />
 
-        <Button type="submit" className="bg-primary-500">
+        <Button type="submit" className="bg-primary-500" disabled={!form.formState.isDirty}>
           Post Thread
         </Button>
       </form>
