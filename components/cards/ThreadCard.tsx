@@ -10,7 +10,7 @@ import { CldOgImage } from "next-cloudinary";
 import ImageOverlay from "./overlay";
 
 interface Props {
-  id: string;
+  id: string ;
   currentUserId: string;
   parentId: string | null;
   content: string;
@@ -79,7 +79,7 @@ async function ThreadCard({
             </Link>
 
             <p className='mt-2 text-small-regular text-dark-2'>{content}</p>
-            {imageUrl&&
+            {imageUrl&&!isComment&&
              <ImageOverlay
                src={imageUrl}
                alt="post image"
@@ -91,7 +91,7 @@ async function ThreadCard({
             <div className={`${isComment && "mb-10"} mt-5 flex flex-col gap-3`}>
               <div className='flex gap-3.5'>
                 <Likes 
-                    userId={userInfo} threadId={id}              />
+                    userId={userInfo} threadId={id}/>
                 <Link href={`/thread/${id}`}>
                   <Image
                     src='/assets/reply.svg'
