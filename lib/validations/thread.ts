@@ -2,7 +2,7 @@ import * as z from "zod";
 
 export const ThreadValidation = z.object({
   thread: z.string().optional(),
-  imageUrl: z.string().optional(),
+  MediaUrl: z.string().optional(),
   accountId: z.string(),
   
 });

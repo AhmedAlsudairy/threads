@@ -21,6 +21,7 @@ import { ThreadValidation } from '@/lib/validations/thread';
 import { createThread } from '@/lib/actions/thread.actions';
 import ImageUpload from './uploadImage';
 import { useState } from 'react';
+import MediaUpload from './uploadMedia';
 
 interface Props {
   userId: string;
@@ -36,21 +37,23 @@ function PostThread({ userId }: Props) {
   const form = useForm<z.infer<typeof ThreadValidation>>({
     resolver: zodResolver(ThreadValidation),
     defaultValues: {
-     
-      thread: '', 
-      imageUrl: '',
+      thread: '',
+      MediaUrl: '',
+
       accountId: userId,
     },
   });
 
   const onSubmit = async (values: z.infer<typeof ThreadValidation>) => {
+    const isVideo = values.MediaUrl?.endsWith('.mp4');
+
     await createThread({
-      text: values.thread,      
-      imageUrl:values.imageUrl,
+      text: values.thread,
+      imageUrl: isVideo ? '' : values.MediaUrl,
+      videoUrl: isVideo ? values.MediaUrl : '',
       author: userId,
       communityId: organization ? organization.id : null,
       path: pathname,
-
     });
 
     router.push('/');
@@ -77,28 +80,33 @@ function PostThread({ userId }: Props) {
             </FormItem>
           )}
         />
-        
-        <FormField
-          control={form.control}
-          name="imageUrl"
-          render={({ field }) => (
-            <FormItem className='flex w-full flex-col gap-3 py-1 my-1'>
 
-              <FormControl>
-                <ImageUpload
-                  value={field.value ? [field.value] : []}
-                  disabled={loading}
-                  onChange={(url) => field.onChange(url)}
-                  onRemove={() => field.onChange('')}
-                />
-              </FormControl>
+        <div className='flex items-center justify-center'>
+          <FormField
+            control={form.control}
+            name="MediaUrl"
+            render={({ field }) => (
+              <FormItem className="flex   flex-col gap-3 py-1 my-1">
+                <FormControl>
+                  <MediaUpload
+                    value={field.value ? [field.value] : []}
+                    disabled={loading}
+                    onChange={(url) => field.onChange(url)}
+                    onRemove={() => field.onChange('')}
+                  />
+                </FormControl>
 
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
-        <Button type="submit" className="bg-primary-500" disabled={!form.formState.isDirty}>
+        <Button
+          type="submit"
+          className="bg-primary-500"
+          disabled={!form.formState.isDirty}
+        >
           Post Thread
         </Button>
       </form>

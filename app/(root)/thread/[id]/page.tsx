@@ -30,6 +30,7 @@ async function page({ params }: { params: { id: string } }) {
           parentId={thread.parentId}
           content={thread.text}
           imageUrl={thread.imageUrl}
+          videoUrl={thread.videoUrl}
           author={thread.author}
           community={thread.community}
           createdAt={thread.createdAt}
