@@ -81,10 +81,12 @@ async function ThreadCard({
               <ImageOverlay src={imageUrl} alt="post image" />
             )}
 
-<video className="w-full rounded-lg shadow-md" controls>
-  <source src={videoUrl} type="video/mp4" />
-  Your browser does not support the video tag.
-</video>
+            {videoUrl && !isComment && (
+              <video className="w-full rounded-lg shadow-md" controls>
+                <source src={videoUrl} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            )}
 
             <div className={`${isComment && 'mb-10'} mt-5 flex flex-col gap-3`}>
               <div className="flex gap-3.5">
