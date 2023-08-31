@@ -15,6 +15,7 @@ interface Result {
     _id: string;
     text: string;
     imageUrl?:string
+    videoUrl:string
     parentId: string | null;
     author: {
       name: string;
@@ -69,6 +70,7 @@ async function ThreadsTab({ currentUserId, accountId, accountType }: Props) {
           parentId={thread.parentId}
           content={thread.text}        
           imageUrl={thread.imageUrl}
+          videoUrl={thread.videoUrl}
 
           
           author={

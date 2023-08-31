@@ -45,6 +45,7 @@ async function Home({
                 createdAt={post.createdAt}
                 comments={post.children}
                 imageUrl={post.imageUrl}
+                videoUrl={post.videoUrl}
               />
             ))}
           </>
